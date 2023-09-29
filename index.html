@@ -1,0 +1,721 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Introducción a JavaScript </title><style>
+    /* cspell:disable-file */
+    /* webkit printing magic: print all background colors */
+    html {
+        -webkit-print-color-adjust: exact;
+    }
+    * {
+        box-sizing: border-box;
+        -webkit-print-color-adjust: exact;
+    }
+    
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+    }
+    @media only screen {
+        body {
+            margin: 2em auto;
+            max-width: 900px;
+            color: rgb(55, 53, 47);
+        }
+    }
+    
+    body {
+        line-height: 1.5;
+        white-space: pre-wrap;
+    }
+    
+    a,
+    a.visited {
+        color: inherit;
+        text-decoration: underline;
+    }
+    
+    .pdf-relative-link-path {
+        font-size: 80%;
+        color: #444;
+    }
+    
+    h1,
+    h2,
+    h3 {
+        letter-spacing: -0.01em;
+        line-height: 1.2;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 0;
+        margin-bottom: 0.75em;
+    }
+    
+    h1 {
+        font-size: 1.875rem;
+        margin-top: 1.875rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+        margin-top: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.25rem;
+        margin-top: 1.25rem;
+    }
+    
+    .source {
+        border: 1px solid #ddd;
+        border-radius: 3px;
+        padding: 1.5em;
+        word-break: break-all;
+    }
+    
+    .callout {
+        border-radius: 3px;
+        padding: 1rem;
+    }
+    
+    figure {
+        margin: 1.25em 0;
+        page-break-inside: avoid;
+    }
+    
+    figcaption {
+        opacity: 0.5;
+        font-size: 85%;
+        margin-top: 0.5em;
+    }
+    
+    mark {
+        background-color: transparent;
+    }
+    
+    .indented {
+        padding-left: 1.5em;
+    }
+    
+    hr {
+        background: transparent;
+        display: block;
+        width: 100%;
+        height: 1px;
+        visibility: visible;
+        border: none;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+    }
+    
+    img {
+        max-width: 100%;
+    }
+    
+    @media only print {
+        img {
+            max-height: 100vh;
+            object-fit: contain;
+        }
+    }
+    
+    @page {
+        margin: 1in;
+    }
+    
+    .collection-content {
+        font-size: 0.875rem;
+    }
+    
+    .column-list {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .column {
+        padding: 0 1em;
+    }
+    
+    .column:first-child {
+        padding-left: 0;
+    }
+    
+    .column:last-child {
+        padding-right: 0;
+    }
+    
+    .table_of_contents-item {
+        display: block;
+        font-size: 0.875rem;
+        line-height: 1.3;
+        padding: 0.125rem;
+    }
+    
+    .table_of_contents-indent-1 {
+        margin-left: 1.5rem;
+    }
+    
+    .table_of_contents-indent-2 {
+        margin-left: 3rem;
+    }
+    
+    .table_of_contents-indent-3 {
+        margin-left: 4.5rem;
+    }
+    
+    .table_of_contents-link {
+        text-decoration: none;
+        opacity: 0.7;
+        border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+    }
+    
+    table,
+    th,
+    td {
+        border: 1px solid rgba(55, 53, 47, 0.09);
+        border-collapse: collapse;
+    }
+    
+    table {
+        border-left: none;
+        border-right: none;
+    }
+    
+    th,
+    td {
+        font-weight: normal;
+        padding: 0.25em 0.5em;
+        line-height: 1.5;
+        min-height: 1.5em;
+        text-align: left;
+    }
+    
+    th {
+        color: rgba(55, 53, 47, 0.6);
+    }
+    
+    ol,
+    ul {
+        margin: 0;
+        margin-block-start: 0.6em;
+        margin-block-end: 0.6em;
+    }
+    
+    li > ol:first-child,
+    li > ul:first-child {
+        margin-block-start: 0.6em;
+    }
+    
+    ul > li {
+        list-style: disc;
+    }
+    
+    ul.to-do-list {
+        padding-inline-start: 0;
+    }
+    
+    ul.to-do-list > li {
+        list-style: none;
+    }
+    
+    .to-do-children-checked {
+        text-decoration: line-through;
+        opacity: 0.375;
+    }
+    
+    ul.toggle > li {
+        list-style: none;
+    }
+    
+    ul {
+        padding-inline-start: 1.7em;
+    }
+    
+    ul > li {
+        padding-left: 0.1em;
+    }
+    
+    ol {
+        padding-inline-start: 1.6em;
+    }
+    
+    ol > li {
+        padding-left: 0.2em;
+    }
+    
+    .mono ol {
+        padding-inline-start: 2em;
+    }
+    
+    .mono ol > li {
+        text-indent: -0.4em;
+    }
+    
+    .toggle {
+        padding-inline-start: 0em;
+        list-style-type: none;
+    }
+    
+    /* Indent toggle children */
+    .toggle > li > details {
+        padding-left: 1.7em;
+    }
+    
+    .toggle > li > details > summary {
+        margin-left: -1.1em;
+    }
+    
+    .selected-value {
+        display: inline-block;
+        padding: 0 0.5em;
+        background: rgba(206, 205, 202, 0.5);
+        border-radius: 3px;
+        margin-right: 0.5em;
+        margin-top: 0.3em;
+        margin-bottom: 0.3em;
+        white-space: nowrap;
+    }
+    
+    .collection-title {
+        display: inline-block;
+        margin-right: 1em;
+    }
+    
+    .page-description {
+        margin-bottom: 2em;
+    }
+    
+    .simple-table {
+        margin-top: 1em;
+        font-size: 0.875rem;
+        empty-cells: show;
+    }
+    .simple-table td {
+        height: 29px;
+        min-width: 120px;
+    }
+    
+    .simple-table th {
+        height: 29px;
+        min-width: 120px;
+    }
+    
+    .simple-table-header-color {
+        background: rgb(247, 246, 243);
+        color: black;
+    }
+    .simple-table-header {
+        font-weight: 500;
+    }
+    
+    time {
+        opacity: 0.5;
+    }
+    
+    .icon {
+        display: inline-block;
+        max-width: 1.2em;
+        max-height: 1.2em;
+        text-decoration: none;
+        vertical-align: text-bottom;
+        margin-right: 0.5em;
+    }
+    
+    img.icon {
+        border-radius: 3px;
+    }
+    
+    .user-icon {
+        width: 1.5em;
+        height: 1.5em;
+        border-radius: 100%;
+        margin-right: 0.5rem;
+    }
+    
+    .user-icon-inner {
+        font-size: 0.8em;
+    }
+    
+    .text-icon {
+        border: 1px solid #000;
+        text-align: center;
+    }
+    
+    .page-cover-image {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        max-height: 30vh;
+    }
+    
+    .page-header-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+    }
+    
+    .page-header-icon-with-cover {
+        margin-top: -0.72em;
+        margin-left: 0.07em;
+    }
+    
+    .page-header-icon img {
+        border-radius: 3px;
+    }
+    
+    .link-to-page {
+        margin: 1em 0;
+        padding: 0;
+        border: none;
+        font-weight: 500;
+    }
+    
+    p > .user {
+        opacity: 0.5;
+    }
+    
+    td > .user,
+    td > time {
+        white-space: nowrap;
+    }
+    
+    input[type="checkbox"] {
+        transform: scale(1.5);
+        margin-right: 0.6em;
+        vertical-align: middle;
+    }
+    
+    p {
+        margin-top: 0.5em;
+        margin-bottom: 0.5em;
+    }
+    
+    .image {
+        border: none;
+        margin: 1.5em 0;
+        padding: 0;
+        border-radius: 0;
+        text-align: center;
+    }
+    
+    .code,
+    code {
+        background: rgba(135, 131, 120, 0.15);
+        border-radius: 3px;
+        padding: 0.2em 0.4em;
+        border-radius: 3px;
+        font-size: 85%;
+        tab-size: 2;
+    }
+    
+    code {
+        color: #eb5757;
+    }
+    
+    .code {
+        padding: 1.5em 1em;
+    }
+    
+    .code-wrap {
+        white-space: pre-wrap;
+        word-break: break-all;
+    }
+    
+    .code > code {
+        background: none;
+        padding: 0;
+        font-size: 100%;
+        color: inherit;
+    }
+    
+    blockquote {
+        font-size: 1.25em;
+        margin: 1em 0;
+        padding-left: 1em;
+        border-left: 3px solid rgb(55, 53, 47);
+    }
+    
+    .bookmark {
+        text-decoration: none;
+        max-height: 8em;
+        padding: 0;
+        display: flex;
+        width: 100%;
+        align-items: stretch;
+    }
+    
+    .bookmark-title {
+        font-size: 0.85em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 1.75em;
+        white-space: nowrap;
+    }
+    
+    .bookmark-text {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .bookmark-info {
+        flex: 4 1 180px;
+        padding: 12px 14px 14px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .bookmark-image {
+        width: 33%;
+        flex: 1 1 180px;
+        display: block;
+        position: relative;
+        object-fit: cover;
+        border-radius: 1px;
+    }
+    
+    .bookmark-description {
+        color: rgba(55, 53, 47, 0.6);
+        font-size: 0.75em;
+        overflow: hidden;
+        max-height: 4.5em;
+        word-break: break-word;
+    }
+    
+    .bookmark-href {
+        font-size: 0.75em;
+        margin-top: 0.25em;
+    }
+    
+    .sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+    .code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+    .serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+    .mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+    .pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+    .pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+    .pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+    .pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+    .pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+    .pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+    .pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+    .pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+    .pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+    .pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+    .pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+    .pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+    .pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+    .pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+    .pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+    .pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+    .highlight-default {
+        color: rgba(55, 53, 47, 1);
+    }
+    .highlight-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+    }
+    .highlight-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+    }
+    .highlight-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+    }
+    .highlight-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+    }
+    .highlight-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+    }
+    .highlight-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+    }
+    .highlight-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+    }
+    .highlight-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+    }
+    .highlight-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+    }
+    .highlight-gray_background {
+        background: rgba(241, 241, 239, 1);
+    }
+    .highlight-brown_background {
+        background: rgba(244, 238, 238, 1);
+    }
+    .highlight-orange_background {
+        background: rgba(251, 236, 221, 1);
+    }
+    .highlight-yellow_background {
+        background: rgba(251, 243, 219, 1);
+    }
+    .highlight-teal_background {
+        background: rgba(237, 243, 236, 1);
+    }
+    .highlight-blue_background {
+        background: rgba(231, 243, 248, 1);
+    }
+    .highlight-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+    }
+    .highlight-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+    }
+    .highlight-red_background {
+        background: rgba(253, 235, 236, 1);
+    }
+    .block-color-default {
+        color: inherit;
+        fill: inherit;
+    }
+    .block-color-gray {
+        color: rgba(120, 119, 116, 1);
+        fill: rgba(120, 119, 116, 1);
+    }
+    .block-color-brown {
+        color: rgba(159, 107, 83, 1);
+        fill: rgba(159, 107, 83, 1);
+    }
+    .block-color-orange {
+        color: rgba(217, 115, 13, 1);
+        fill: rgba(217, 115, 13, 1);
+    }
+    .block-color-yellow {
+        color: rgba(203, 145, 47, 1);
+        fill: rgba(203, 145, 47, 1);
+    }
+    .block-color-teal {
+        color: rgba(68, 131, 97, 1);
+        fill: rgba(68, 131, 97, 1);
+    }
+    .block-color-blue {
+        color: rgba(51, 126, 169, 1);
+        fill: rgba(51, 126, 169, 1);
+    }
+    .block-color-purple {
+        color: rgba(144, 101, 176, 1);
+        fill: rgba(144, 101, 176, 1);
+    }
+    .block-color-pink {
+        color: rgba(193, 76, 138, 1);
+        fill: rgba(193, 76, 138, 1);
+    }
+    .block-color-red {
+        color: rgba(212, 76, 71, 1);
+        fill: rgba(212, 76, 71, 1);
+    }
+    .block-color-gray_background {
+        background: rgba(241, 241, 239, 1);
+    }
+    .block-color-brown_background {
+        background: rgba(244, 238, 238, 1);
+    }
+    .block-color-orange_background {
+        background: rgba(251, 236, 221, 1);
+    }
+    .block-color-yellow_background {
+        background: rgba(251, 243, 219, 1);
+    }
+    .block-color-teal_background {
+        background: rgba(237, 243, 236, 1);
+    }
+    .block-color-blue_background {
+        background: rgba(231, 243, 248, 1);
+    }
+    .block-color-purple_background {
+        background: rgba(244, 240, 247, 0.8);
+    }
+    .block-color-pink_background {
+        background: rgba(249, 238, 243, 0.8);
+    }
+    .block-color-red_background {
+        background: rgba(253, 235, 236, 1);
+    }
+    .select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+    .select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+    .select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+    .select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+    .select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+    .select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+    .select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+    .select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+    .select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+    .select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+    .select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+    .select-value-color-pageGlass { background-color: undefined; }
+    .select-value-color-washGlass { background-color: undefined; }
+    
+    .checkbox {
+        display: inline-flex;
+        vertical-align: text-bottom;
+        width: 16;
+        height: 16;
+        background-size: 16px;
+        margin-left: 2px;
+        margin-right: 5px;
+    }
+    
+    .checkbox-on {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+    }
+    
+    .checkbox-off {
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+    }
+        
+    </style></head><body><article id="5380a5bf-0051-436d-ac3f-6f1fcfc884bd" class="page sans"><header><h1 class="page-title">Introducción a JavaScript </h1><p class="page-description"></p></header><div class="page-body"><h2 id="188aca17-b864-4752-9932-2b7820bd0314" class="">¿Qué es JavaScript?</h2><p id="6afd1f6e-c550-4190-8653-4e42b5857d7d" class="">JavaScript es un lenguaje de programación de alto nivel utilizado principalmente para crear interactividad en sitios web. Es un componente esencial de la web moderna y se ejecuta en el navegador del usuario.</p><h2 id="a955bdaf-933a-42f0-88e5-df476cd449db" class="">Configuración Inicial</h2><p id="05e84fe8-5ebd-41ff-a5e1-ee216266a952" class="">Para empezar, solo necesitas un navegador web y un editor de texto. Puedes escribir código JavaScript directamente en el inspector de tu navegador o crear un archivo HTML que contenga tu código JavaScript.</p><p id="02c62d94-91a3-4913-ad9b-eae46fc9fa28" class="">Dentro de tu archivo <strong>HTML</strong>, puedes incluir JavaScript utilizando la etiqueta <strong>&lt;script&gt;</strong> en el <strong>&lt;head&gt;</strong> o al final del <strong>&lt;body&gt;.</strong></p><pre id="5226ed21-22b1-4d48-ae77-7cf350492a4e" class="code"><code>&lt;!DOCTYPE html&gt;
+    &lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Mi Página&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;!-- Contenido de tu página --&gt;
+    
+    &lt;script&gt;
+        // Tu código JavaScript va aquí
+    &lt;/script&gt;
+    &lt;/body&gt;
+    &lt;/html&gt;</code></pre><h2 id="5382c85f-ef99-426e-8601-0407b0eaa35f" class="">Como ejecutar JavaScript</h2><p id="7fdcc108-c4bf-4872-8db6-05376c23be6a" class="">Para ejecutar codigo javascript, solo basta con ir a las herramientas de desarrollo o “<strong>Dev tools</strong>”, para acceder precionando las teclas dentro del teclado <strong><mark class="highlight-yellow_background">Ctrl + Shift + j</mark></strong> (Control + Shift + J) lo que nos desplegara un panel del lado derecho de nuestro navegador. Otra manera de poder accesar, es desde las opciones dentro del navegador. </p><p id="8c7e0a26-6591-4096-bc83-5c10d4cb373e" class=""><strong>Para navegador Chrome y Edge:</strong></p><p id="db36b07c-0bff-42e7-b3a7-a892f11c2344" class="">Menu.<div class="indented"><blockquote id="f0baafb4-db5a-4654-81fe-91ec8018142a" class="">Mis herramientas<blockquote id="12a92431-dbdc-44c9-94e2-9f40c3d962a4" class="">Herramientas del desarrollador o developer tools (Si el navegador esta en ingles).</blockquote></blockquote></div></p><p id="26454ac2-a16f-46de-8415-ea61fb779581" class="">
+    </p><p id="aa023711-2af3-44b8-9f0e-b1fea85dfd4a" class="">Dentro de este panel se vera ejecutado nuestro codigo JavaScript. A diferencia de otros lenguajes de programación, en Javascript, los resultados se veran impresos en diferentes <strong>saltos de lineas</strong>.</p><h2 id="a6bf5a36-649b-4481-9e79-414b4e544202" class="">“Hola mundo” en JavaScript.</h2><p id="e6125a82-d006-4eb1-b47a-7d0837857d98" class="">Para iniciar tenemos que ir a nuestro archivo index en HTML  y colocar las etiquetas “script” en la parte inferior, antes de la etiqueta de cierre del <strong>body.</strong></p><blockquote id="80e07f58-bf33-480c-bd25-9cc123cd620f" class=""><em>Asi como en el lenguaje C, la menera de imprimir en pantalla es con el comando </em><em><strong>printf(”Hola mundo”); </strong></em><em>En JavaScript hay una sintaxis y comando similar. En este caso, en ves de </em><em><strong>“printf” </strong></em><em>colocamos el comando </em><em><strong>“console”.</strong></em></blockquote><pre id="fca2ef6a-3996-4ae3-a0ff-7a0103859514" class="code"><code>&lt;script&gt;
+            console.log(&quot;Hola mundo&quot;);
+            console.log(&quot;Este es mi primer programa con javascript&quot;);
+    &lt;/script&gt;</code></pre><h2 id="35eee9f2-f91d-4ad2-a327-0f091166859b" class="">Variables y tipos de datos</h2><p id="2fe2b0b8-bc99-41aa-a6cf-016181ce74be" class="">Las variables en JavaScript son como <strong><mark class="highlight-yellow_background">cajas </mark></strong>donde puedes <mark class="highlight-yellow_background"><strong>guardar cosas</strong></mark>, como números, texto o cualquier tipo de información. Puedes pensar en ellas como <strong><mark class="highlight-yellow_background">etiquetas pegadas en esas cajas para saber qué hay adentro</mark></strong>. </p><h3 id="17faf44f-c269-4377-aec3-2a84cec62144" class="">var.</h3><p id="90a99ca9-e89f-4686-963a-0ebf594ca79d" class="">Antes <strong><mark class="highlight-yellow_background">solía</mark></strong> ser la forma común de declarar variables, pero <mark class="highlight-yellow_background"><strong>no se usa</strong></mark> mucho en la actualidad. Puede causar problemas de <strong><mark class="highlight-yellow_background">alcance (scope).</mark></strong></p><pre id="8bf352b9-9522-48b0-b26d-f3ab3b791732" class="code"><code>var nombreDeVariable= &quot;Texto&quot;;</code></pre><pre id="12308690-b5f6-4c5e-964c-d01e9d6dcb47" class="code"><code>var nombre = &quot;Juan&quot;</code></pre><h3 id="bbd90321-791d-417a-995b-4a541df34e88" class="">Let.</h3><p id="0624c720-74b1-418e-ae01-87ceec9232e7" class="">Es la forma <strong><mark class="highlight-yellow_background">moderna </mark></strong>de declarar variables que pueden cambiar su valor después de ser declaradas. <strong><mark class="highlight-yellow_background">Es más segura que var.</mark></strong></p><pre id="99a5f231-ac96-4ea3-a2bd-86a84921047f" class="code"><code>let nombreDeVariable = contenidoDeLaVariable;</code></pre><pre id="dc0c3914-e3da-4926-b4c6-74bda9c4c73f" class="code"><code>let edad = 30;</code></pre><h3 id="6fd7b701-40bb-4e27-92d2-62c1093872ae" class="">const.</h3><p id="8d257775-dcd8-418f-8a74-b0cff3c78ec8" class="">Se utiliza para declarar variables <strong><mark class="highlight-yellow_background">que no pueden cambiar su valor una vez asignado</mark></strong>. Es útil para valores que no deben cambiar.</p><pre id="0e2357b0-bf8e-4ba0-8ef6-64438c29033f" class="code"><code>const pi = 3.1416;</code></pre><h2 id="c1489ea9-2013-4b0a-b938-fa4886e8505c" class="">Tipos de datos en JavaScript.</h2><p id="038024d6-a08a-4745-9e27-79ec5affe0e7" class="">JavaScript tiene varios tipos de datos que puedes guardar en esas cajas<mark class="highlight-yellow_background"><strong> (variables). </strong></mark></p><h3 id="61ac8e3a-2222-4c6e-931a-9ad8debf6704" class="">Número (Number).</h3><p id="54a67d8c-3dcf-4cdc-b98d-4ed56bc1fd8c" class="">Para <mark class="highlight-yellow_background"><strong>guardar </strong></mark>valores <mark class="highlight-yellow_background"><strong>numéricos</strong></mark>, ya sean <mark class="highlight-yellow_background"><strong>enteros o decimales.</strong></mark></p><pre id="7208c9f4-21c4-42f1-90b4-f89fd5ddde1f" class="code"><code>let edad = 25;
+    let precio = 9.99;</code></pre><h3 id="7a7c63aa-b40a-4435-99e5-e1fdd347bf37" class="">Texto (String).</h3><p id="f938cdb6-e961-4ada-9e03-e5cc8ed63be0" class="">Para almacenar cadenas de caracteres <mark class="highlight-yellow_background"><strong>(letras, números, símbolos)</strong></mark> dentro de <mark class="highlight-yellow_background"><strong>comillas </strong></mark>simples o dobles.</p><pre id="9a390487-6148-42e1-aa9e-92fdf53975f9" class="code"><code>let nombre = &quot;Maria&quot;;
+    let mensaje = &#x27;Hola, mundo!&#x27;;</code></pre><h3 id="947ae65e-1430-4c52-a0ed-6681a619cbb6" class="">Booleano (Boolean).</h3><p id="aeb0da9e-62a3-498d-851d-9d2a8657047e" class="">Para representar valores verdaderos (true) o falsos (false), útil en <mark class="highlight-yellow_background"><strong>decisiones lógicas.</strong></mark></p><pre id="19a52520-bb41-4697-a867-0aa7d649603f" class="code"><code>let variableVerdadera = true;
+    let variableFalsa = false;</code></pre><ul id="88b947e6-c049-4008-87d4-f55f7b907153" class="bulleted-list"><li style="list-style-type:disc">&gt; Mayor que</li></ul><ul id="8c0737f3-e74f-49f5-9e70-d6fda03b7448" class="bulleted-list"><li style="list-style-type:disc">&gt;= Mayor o igual que</li></ul><ul id="f872ec92-ee5b-47fc-94c1-f533d2953d80" class="bulleted-list"><li style="list-style-type:disc">&lt; Menor que</li></ul><ul id="5268d5df-570c-4b39-a336-fffa61ddd51b" class="bulleted-list"><li style="list-style-type:disc">&lt;= Menor o igual que</li></ul><ul id="4a49c86a-43cf-4e2d-b6e6-40ccb3a00dc1" class="bulleted-list"><li style="list-style-type:disc">!= Diferente de</li></ul><h3 id="c909032c-abd0-4adf-8f43-5b4fba987df9" class="">Arreglo (Array).</h3><p id="ca201543-f074-4423-b919-dd551996ad47" class="">Para almacenar <mark class="highlight-yellow_background"><strong>múltiples valores en una sola variable</strong></mark>, usando corchetes [].</p><pre id="4b2ddc57-c35e-4a15-8d24-1f01d2117a01" class="code"><code>let frutas = [&quot;manzana&quot;, &quot;banano&quot;, &quot;naranja&quot;];</code></pre><h3 id="edd994a0-0d29-4710-a668-d4d0392f8c1c" class="">Objeto (Object).</h3><p id="457bcb29-2862-486f-ae20-12b8a7b79a4d" class="">Para agrupar <mark class="highlight-yellow_background"><strong>datos relacionados</strong></mark> utilizando llaves {}.</p><pre id="b7ee41d4-9a94-4876-a1fe-c77077e9011e" class="code"><code>let persona = {
+        nombre: &quot;Juan&quot;,
+        edad: 30,
+        ciudad: &quot;Madrid&quot;
+    };</code></pre><h3 id="c5775d3c-c592-4b5d-a5a6-cf070813ab0f" class="">Nulo (Null).</h3><p id="90b9ed2f-161f-48f6-b03d-8025caddf344" class="">Representa la <mark class="highlight-yellow_background"><strong>ausencia intencional</strong></mark> de cualquier valor o objeto.</p><pre id="04ce4947-2899-42ce-8508-5ade1b92f44e" class="code"><code>let resultado = null;</code></pre><h3 id="30419019-c9f4-4f7a-b40b-99bbd9d8a5c6" class="">Indefinido (Undefined).</h3><p id="b07669be-3822-4c23-b7cf-b5f76c44cc13" class="">Cuando una variable se declara pero <mark class="highlight-yellow_background"><strong>no se le asigna ningún valor.</strong></mark></p><pre id="8ca6071c-6ef2-4bcd-a523-e697e4bf2cd7" class="code"><code>let sinDefinir;</code></pre><h1 id="357ee6b2-58c8-4dae-b957-13ba52e1d06b" class="">Tipos de operadores logicos y de asignación comparativa.</h1><p id="4f321f73-f63f-4cf8-a811-0a89d2a2f14d" class="">Los operadores de asignación en JavaScript son herramientas que te permiten asignar valores a variables de una manera más rápida y conveniente. Aquí tienes una explicación sencilla de los operadores de asignación más comunes:</p><h3 id="5f782157-53ec-450f-9142-221e9d06e0a1" class="">Igual (==).</h3><p id="9905792a-fa9d-4199-a71f-f750b6d47599" class="">Compara si <mark class="highlight-yellow_background"><strong>dos valores son iguales</strong></mark>, sin tener en cuenta el tipo de dato. Si son iguales, devuelve true, de lo contrario, devuelve false.</p><pre id="e05d75b9-c10e-4269-a44b-5fba3dceb968" class="code"><code>5 == &quot;5&quot; // true, porque ambos valores son iguales en valor</code></pre><h3 id="7987e8c1-9b18-44a9-b44b-ce0fe6f0af5a" class="">No Igual (!=).</h3><p id="c83e564f-8910-4089-9413-cc2cd929b5d4" class=""><mark class="highlight-yellow_background"><strong>Compara </strong></mark>si dos valores <mark class="highlight-yellow_background"><strong>no son iguales</strong></mark>. Si son diferentes, devuelve true, de lo contrario, devuelve false.</p><pre id="6ce4cf2b-9980-4320-81a3-b7a35d48eed7" class="code"><code>5 != 3 // true, porque 5 no es igual a 3</code></pre><h3 id="9ac5aa97-e935-42fe-a274-550a2a22e522" class="">Igualdad Estricta (===).</h3><p id="b0a28731-4ca5-4dd9-a8b1-d4f5781a389a" class="">Compara si dos valores <mark class="highlight-yellow_background"><strong>son iguales en valor y tipo de dato</strong></mark>. Si son iguales en ambos aspectos, devuelve true, de lo contrario, devuelve false.</p><pre id="c745bb8d-ddc4-4986-9399-ddcd62ad4792" class="code"><code>5 === &quot;5&quot; // false, porque los tipos de datos son diferentes</code></pre><h3 id="c39b31b0-e8d0-4fd5-b5e7-26e2c6d00c19" class="">No Igual Estricta (!==).</h3><p id="a14dd927-936a-40dc-98aa-56b522aa6cc3" class="">Compara si dos valores <mark class="highlight-yellow_background"><strong>no son iguales en valor o tipo de dato</strong></mark>. Si son diferentes en cualquiera de estos aspectos, devuelve true, de lo contrario, devuelve false.</p><pre id="1a20fa0c-07ac-4990-ae7d-f481cfb69c8a" class="code"><code>5 !== &quot;5&quot; // true, porque los tipos de datos son diferentes</code></pre><h2 id="b8fb1904-e700-4044-947a-652b2c3fc4d3" class=""><strong>Operadores Lógicos:</strong></h2><h3 id="05d5fe8d-66e2-404f-a125-0857af8251f6" class="">AND lógico (&amp;&amp;).</h3><p id="872e1397-17ce-4f9e-8b2c-2b8042248c1d" class="">Se utiliza para <mark class="highlight-yellow_background"><strong>verificar </strong></mark>si dos condiciones <mark class="highlight-yellow_background"><strong>son verdaderas</strong></mark>. Devuelve true si ambas condiciones son verdaderas; de lo contrario, devuelve false.</p><pre id="a7977909-e454-4e62-bcf3-3cebcdb9518f" class="code"><code>(5 &gt; 3) &amp;&amp; (10 &lt; 20) // true, porque ambas condiciones son verdaderas</code></pre><h3 id="686fb87d-d62a-4083-b17c-8ccecc0f116e" class="">OR lógico (||).</h3><p id="0a5a9112-cd8e-4b57-8573-035089af33f1" class="">Se utiliza para <mark class="highlight-yellow_background"><strong>verificar </strong></mark>si al menos <mark class="highlight-yellow_background"><strong>una de dos condiciones es verdadera</strong></mark>. Devuelve true si al menos una condición es verdadera; de lo contrario, devuelve false.</p><pre id="f84d7a5b-9ace-44b1-b36c-ee4f22c25f58" class="code"><code>(5 &lt; 3) || (10 &lt; 20) // true, porque la segunda condición es verdadera</code></pre><h3 id="03f09e80-36e7-4c14-a9b9-6960c4ecddf1" class="">NOT lógico (!).</h3><p id="ac7717eb-262b-45ed-9406-33c12c2ab249" class="">Se utiliza para <mark class="highlight-yellow_background"><strong>invertir el valor</strong></mark> de una condición.<mark class="highlight-yellow_background"><strong> Si la condición es verdadera, devuelve false</strong></mark>, y si la condición es falsa, devuelve true.</p><pre id="3dfbb402-27c3-425a-9026-cbdf8e60937b" class="code"><code>!(5 &gt; 3) // false, porque la condición original es verdadera</code></pre><h1 id="52b4d906-f5e2-4bd0-a670-3d630f806b7c" class="">Ciclos en Javascript</h1><p id="3639938c-4f3c-4cac-8b5f-5e8b5d88886f" class="">Los ciclos en JavaScript <mark class="highlight-yellow_background"><strong>son estructuras que te permiten repetir tareas de manera eficiente</strong></mark>. Hay dos tipos principales de ciclos: for y while. </p><h3 id="7d032d60-0a9b-4108-95e5-85e64b47efb1" class="">Ciclo for.</h3><pre id="c4a99ad7-8d60-4711-827f-80c43538f1c7" class="code"><code>for (inicialización; condición; incremento/decremento) {
+      // Código a repetir
+    }</code></pre><p id="077e69e0-1d2c-4ba2-b593-0d8a5bcc3c48" class="">El ciclo for es útil cuando <mark class="highlight-yellow_background"><strong>sabes cuántas veces quieres repetir una tarea</strong></mark>. Aquí está su estructura básica:</p><ul id="2641d1d5-6045-4548-9a5c-396430280714" class="bulleted-list"><li style="list-style-type:disc"><strong>Inicialización</strong>: Establece una <strong><mark class="highlight-yellow_background">variable de control</mark></strong> que se usa para contar las repeticiones.</li></ul><ul id="8d8dabed-a332-4743-8c77-02263d1420bc" class="bulleted-list"><li style="list-style-type:disc"><strong>Condición</strong>: <strong><mark class="highlight-yellow_background">Define cuándo se detendrá el ciclo</mark></strong>. Mientras esta condición sea verdadera, el ciclo continuará.</li></ul><ul id="b23c1da8-b54b-4404-9551-daff6f206782" class="bulleted-list"><li style="list-style-type:disc"><strong>Incremento/Decremento</strong>: <mark class="highlight-yellow_background"><strong>Modifica </strong></mark>la variable de control en <strong><mark class="highlight-yellow_background">cada iteración para acercarse al final.</mark></strong></li></ul><h3 id="daedcef2-2ad9-4328-836d-20cd990ae9d7" class="">Ciclo while.</h3><p id="8220040e-5b6c-41ac-88ff-64e540e8bc97" class="">Es útil cuando <mark class="highlight-yellow_background"><strong>no sabes cuántas veces se ejecutará una tarea</strong></mark>, pero tienes una condición que debe ser verdadera para continuar.</p><pre id="3570e40c-67b0-4bad-b4a1-05508ae84672" class="code"><code>while (condición) {
+      // Código a repetir
+    }</code></pre><p id="90a32a7c-e9ed-4c2c-88e1-c3b1960ab073" class=""><strong>Condición</strong>: Mientras esta condición sea verdadera, el ciclo se ejecutará una y otra vez.</p><h3 id="0c7913ef-b029-4561-a3c8-5e027aa46f7e" class="">Ciclo do...while.</h3><p id="f42f6faa-0c24-4c1b-bf87-e13eae7a4c09" class="">Este ciclo es similar al while, pero <mark class="highlight-yellow_background"><strong>garantiza que el código se ejecute al menos una vez antes de verificar la condición.</strong></mark></p><pre id="45fa404d-7ebb-4506-acc2-5b0daab5edf3" class="code"><code>do {
+      // Código a repetir
+    } while (condición);</code></pre><h1 id="9c033719-1977-4959-a190-e61fa77ca778" class="">Funciones en Javascript</h1><h2 id="66180349-26ab-469a-a84e-d620d2e707e3" class="">Que es una función.</h2><p id="826be47f-ac0f-4995-8b06-48081a588645" class="">Es un <mark class="highlight-yellow_background"><strong>bloque de código</strong></mark> que realiza una <mark class="highlight-yellow_background"><strong>tarea específica cuando se llama</strong></mark>. Las funciones son como pequeñas tareas que puedes reutilizar en tu código.</p><p id="9a307057-b897-4458-8b61-334f088dc44a" class="">Para declarar una función, utiliza la palabra clave <mark class="highlight-yellow_background"><strong>function</strong></mark>, seguida de un <strong><mark class="highlight-yellow_background">nombre </mark></strong>para la función y paréntesis (). El código de la función se coloca entre llaves {}.</p><pre id="e02dc04f-6e00-4676-a033-d2479a37d2f9" class="code"><code>function nombreDeMiFuncion() {
+      // Tareas que realizara la funcion
+    }</code></pre><h3 id="627107f0-dbc9-4955-99d3-6fa28a889f1a" class="">Llamar una Función.</h3><p id="f2b634c9-66ca-4e29-880a-0dd81d894cdb" class="">Para ejecutar o &quot;llamar&quot; una función, simplemente <mark class="highlight-yellow_background"><strong>escribe su nombre seguido de paréntesis ().</strong></mark></p><pre id="35d7e533-40ae-43d3-a425-ffffd44d9d09" class="code"><code>nombreDeMiFuncion(); // Llama a la función</code></pre><h3 id="5241f48b-4127-41ee-9675-87a2f19b98e6" class="">Funciones con Parámetros.</h3><p id="5610bbf5-d702-4ec9-a4d2-69644c760314" class="">Puedes pasar datos a una función a través de parámetros. Los parámetros<mark class="highlight-yellow_background"><strong> se declaran entre los paréntesis</strong></mark> cuando defines la función y se utilizan dentro de la función.</p><pre id="fb9298f3-a27c-4622-8ab0-a1c50f99ab42" class="code"><code>function nombreDeMiFuncion(nombreDeMiParametro) {
+      console.log(&quot;¡Mi texto, &quot; + nombreDeMiParametro+ &quot;!&quot;);
+    }
+    
+    nombreDeMiFuncion(&quot;Mi texto&quot;); // Llama a la función con un argumento</code></pre><h3 id="d64f11ef-cf23-4e8f-adb4-c86d595ae1fe" class="">Valor de Retorno.</h3><p id="0de7ea02-e218-4a22-bc81-811716ea3381" class="">Las funciones pueden devolver un valor usando la palabra clave return.<mark class="highlight-yellow_background"><strong> Esto es útil cuando deseas obtener un resultado de una función.</strong></mark></p><pre id="103e1bff-f3b8-458c-864c-568ab3d3ea87" class="code"><code>function nombreDeMiFuncion(parametroUno, parametroDos) {
+      return IntruccionDada;
+    }
+    
+    let resultado = nombreDeMiFuncion(parametroUno, parametroDos); // Llama a la función y almacena el resultado
+    console.log(resultado); // Imprime el resultado en la consola</code></pre><h3 id="bcaf6e42-40b4-4492-80f6-57f0ce288b22" class="">Arrow Functions (Funciones Flecha).</h3><p id="1e1367f6-a5cf-4338-b45c-04fa970b60ea" class="">Las funciones flecha <mark class="highlight-yellow_background"><strong>son una forma más concisa</strong></mark> de escribir funciones anónimas.</p><pre id="664c4cdb-49a7-4083-b96d-ff0195ac7790" class="code"><code>let nombreDeVariable = (nombreDeLaFuncion) =&gt; {
+      console.log(&quot;¡Texto, &quot; + nombreDeLaFuncion + &quot;!&quot;);
+    };
+    
+    nombreDeVariable(&quot;Texto&quot;); // Llama a la función flecha</code></pre><p id="4faae8aa-a9a6-433c-b2cc-7f332db81647" class="">
+    </p></div></article></body></html>
